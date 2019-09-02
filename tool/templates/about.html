@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block body %}
+<!-- <div class="starter-template"> -->
+<h3>Sobre a Ferramenta para rotular faces</h3>
+
+<div style="text-align: left">
+    <p>
+        Olá usuário, essa ferramenta de marcação de faces de mangás foi desenvolvida para 
+        que você possa nos ajudar com seu conhecimento e nos guiar qual expressão melhor 
+        representa cada face mostrada. Algumas vezes você irá se deparar com situações em 
+        que não há uma face, então nesse caso você deverá marcação a opção que corresponde 
+        a essa situação específica. Em nossa ferramenta você irá se deparar com 11 tipos de 
+        expressões básicas, sendo elas:
+    </p>
+    <div class="row">
+        <div class="col">
+            <ul>
+                <li>Felicidade/confiança</li> 
+                <li>Raiva/intimidação</li>   
+                <li>Sério/crítico</li>    
+                <li>Apreensão/nervosismo</li>    
+                <li>Sofrimento/Depressão</li>    
+                <li>Nojo/Desprezo</li>    
+                <li>Tristeza</li>    
+                <li>Timidez/Vergonha</li>    
+                <li>Medo</li>    
+                <li>Surpresa</li>    
+                <li>Inconsciência/Sono</li>    
+            </ul>
+        </div>
+        <div>
+            <img id="imgsrc" src="{{url_for('static', filename='imgs/rikka.gif')}}" class="img-thumbnail" alt="Rikka"  style="height:200px;"> 
+        </div>
+
+    </div>
+    
+    <p>
+        Por exemplo, para a imagem animada mostrada nesta página devemos consider a expressão
+        séria dentre as opções listadas. 😉
+    </p>
+</div>
+{% endblock %}

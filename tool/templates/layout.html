@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Meta tags Obrigatórias -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="{{url_for('static', filename='fa/css/all.css') }}" rel="stylesheet"> <!--load all styles -->
+    <!-- Bootstrap CSS -->    
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+     <!-- Custom styles for this template -->
+    <link href="{{url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    <!-- JQUERY-->
+    <script type=text/javascript src="{{url_for('static', filename='js/jquery.min.js') }}"></script>
+    <title>MangaLabelling Tool</title>
+  </head>
+  <body>
+      {% include 'navbar.html' %}
+      <div class="container" style="text-align: center;">
+         <div class="card border-0 shadow my-5">
+            <div class="card-body p-5 faces-content">
+              {% block body %}
+              {% endblock %}
+            </div>
+        </div>
+      </div>
+</body>
+<script src="{{url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+
+</html>

@@ -1,0 +1,68 @@
+{% block help %}
+<!-- Button trigger modal -->
+<button id="help-button" type="button" class="btn btn-default" aria-label="Left Align"
+data-toggle="modal" data-target="#helpModal">
+    Dicas <span class="fas fa-info-circle" aria-hidden="true"></span>
+</button>
+<br>
+<!-- Modal -->
+  <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="helpModal">Guia</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Primeira linha do modal -->
+          <div class="row">
+              <div class="col-sm-6">
+                <div class="card">
+                    <img class="card-img-top" src="{{url_for('static', filename='imgs/example/1.jpg') }}" alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">Surpresa</h5>
+                      <p class="card-text">Nessa imagem os olhos arregalados e a gotinha na cara são indicadores de surpresa comuns.</p>
+                    </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="card">
+                  <img class="card-img-top" src="{{url_for('static', filename='imgs/example/2.jpg') }}" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">Seriedade</h5>
+                    <p class="card-text">São expressões bem comuns que vão de uma faces neutras até expressões de leve raiva para alguns.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Segunda linha do modal -->
+            <div class="row">
+                <div class="col-sm-6">
+                  <div class="card">
+                      <img class="card-img-top" src="{{url_for('static', filename='imgs/example/3.jpg') }}" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">Felicidade</h5>
+                        <p class="card-text">Podem ser bem ambiguas, mas geralmente a presença de um sorriso é o suficiente para classifica-la como tal.</p>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="card">
+                    <img class="card-img-top" src="{{url_for('static', filename='imgs/example/4.jpg') }}" alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">Não se sabe</h5>
+                      <p class="card-text">Imagens onde não podemos ver a face claramente para inferir que expressão o personagem faz.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
