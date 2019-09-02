@@ -59,6 +59,8 @@ def update(labels):
         #a face nao foi marcada
         if(labels[i]!=42):
             curr_batch[i][4] = True
+        else:
+            curr_batch[i][3] = False
 
     db = get_db()
     cursor = db.cursor()
