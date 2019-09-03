@@ -47,8 +47,7 @@ function nextImage() {
     console.log(value); 
     if (index > images.length - 1) {
       index = 0;
-      var data = {labels: labels};
-      post("/request_faces", data, method='post');
+      post("/request_faces", {"Requisitar faces": "OK"}, method='post');
     }
   document.getElementById('imgsrc').src = images[index];
 }

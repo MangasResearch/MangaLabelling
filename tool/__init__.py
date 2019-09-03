@@ -2,9 +2,12 @@ import os
 
 from flask import Flask
 from flask import render_template
-# from flask_socketio import SocketIO
+from dotenv import load_dotenv
 
-# socketio = SocketIO()
+# load dotenv in the base root
+APP_ROOT = os.path.join(os.path.dirname(__file__), '..')   # refers to application_top
+dotenv_path = os.path.join(APP_ROOT, '.env')
+load_dotenv(dotenv_path)
 
 
 def create_app(test_config=None):
@@ -16,25 +19,21 @@ def create_app(test_config=None):
         SECRET_KEY="dev",
         # store the database in the instance folder
         DATABASE=os.path.join(app.instance_path, "tool.sqlite"),
-        #SEND_FILE_MAX_AGE_DEFAULT=0
+        SEND_FILE_MAX_AGE_DEFAULT=0
     )
-
+    
     if test_config is None:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile("config.py", silent=True)
     else:
         # load the test config if passed in
         app.config.update(test_config)
-
+        
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    @app.route("/hello")
-    def hello():
-        return "Hello, World!"
 
     from . import db
     
@@ -44,7 +43,4 @@ def create_app(test_config=None):
     app.register_blueprint(site.bp)
     app.add_url_rule('/', endpoint='index')
 
-    # socketio.init_app(app)
-    #login_manager = LoginManager()
-    #login_manager.init_app(app)
     return app

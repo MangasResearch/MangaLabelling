@@ -14,7 +14,7 @@ from tool.utils import remove_images
 
 request_query = """
         WITH subquery AS (
-           SELECT * FROM dataset WHERE MARKED = False and BUSY = False LIMIT 10 
+           SELECT * FROM dataset WHERE MARKED = False and BUSY = False LIMIT 5 
         )
         UPDATE dataset
         SET busy=TRUE
@@ -55,8 +55,8 @@ def update(labels):
     global update_query
     for i in range(len(labels)):
         curr_batch[i][2] = labels[i]
-        #confirma quem foram as faces marcadas. Se label for 42,
-        #a face nao foi marcada
+        # Confirma quem foram as faces marcadas. 
+        # Se label for 42, a face nao foi marcada
         if(labels[i]!=42):
             curr_batch[i][4] = True
         else:
@@ -105,8 +105,6 @@ def index():
         dataset = session.get('dataset')
         curr_imgs = session['curr_imgs']
 
-    
-    
     session['curr_imgs'] = curr_imgs
     session['dataset'] = dataset
     session['indice'] = 1
@@ -132,22 +130,19 @@ def reload():
     update(list_labels)
 
     print("REMOVENDO IMAGENS")
-    curr_batch = session.get('curr_batch')
     curr_imgs = session.get('curr_imgs')
     remove_images(curr_imgs)
     curr_imgs = []
-    curr_batch = [] 
 
     session.pop('username', None)
-    session.pop('curr_batch', None)
     session.pop('curr_imgs', None)
 
     return jsonify({"STATUS": "OK"})
     
-# @bp.after_request
-# def add_header(response):
-#     # response.cache_control.no_store = True
-#     response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
-#     response.headers['Pragma'] = 'no-cache'
-#     response.headers['Expires'] = '-1'
-#     return response
+@bp.after_request
+def add_header(response):
+    # response.cache_control.no_store = True
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
+    return response

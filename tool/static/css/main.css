@@ -1,6 +1,6 @@
 body {
   /* padding-top: 5rem; */
-  background: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/items/412830/66d1a33ae93fa38bec40d7899e983d45cd43c30f.jpg') no-repeat center center fixed;
+  background: url('/static/imgs/background.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;

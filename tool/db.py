@@ -12,7 +12,7 @@ from flask.cli import with_appcontext
 def _get_faces():
     path = os.environ["FOLDER_IMGS"]
     faces = []
-    for f in glob.glob(join(path, "*.jpg"), recursive=True):
+    for f in glob.glob(join(path, "*/*.jpg"), recursive=True):
         faces.append((f, 0, False, False))
     return faces
 
