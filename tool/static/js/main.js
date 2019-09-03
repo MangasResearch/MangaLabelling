@@ -59,17 +59,6 @@ window.onload = function() {
 }
 
 
-$(function () {
-  //getting click event to show modal
-    $('#help-button').click(function () {
-        $('#helpModal').modal();
-      //appending modal background inside the bigform-content
-        $('.modal-backdrop').appendTo('.faces-content');
-    });
-
-});
-
-
 /**
  * sends a request to the specified url from a form. this will change the window location.
  * @param {string} path the path to send the post request to

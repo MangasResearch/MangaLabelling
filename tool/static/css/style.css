@@ -1,5 +1,5 @@
 body {
-  /* padding-top: 5rem; */
+  /* padding-top: 3rem; */
   background: url('/static/imgs/background.png') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -10,20 +10,18 @@ body {
 .container {
   position: relative;
   z-index: 1;
-  max-width: 700px;
   margin: 0 auto;
 }
 
-.modal, .modal-backdrop {
+.modal, .modal-backdrop-custom {
   position: absolute !important;
 }
 
-
 /* Important part */
-.modal-dialog{
+.modal-dialog-custom{
   overflow-y: initial !important
 }
-.modal-body{
+.modal-body-custom{
   height: 250px;
   overflow-y: auto;
 }

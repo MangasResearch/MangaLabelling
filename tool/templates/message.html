@@ -1,0 +1,24 @@
+{% block message %} 
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-sm" id="messageExit" tabindex="-1" role="dialog" aria-labelledby="messageExitLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="messageExitLabel">MangaLabelling Tool</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body ">
+                  <img src="/static/imgs/confused.jpg" class="img-thumbnail" alt="Face"  style="height:160px;"> 
+                  <h3><i class="fas fa-exclamation-triangle"></i></h3>
+                  Você deseja salvar as alterações e sair?          
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <a href="https:\\www.google.com" class="btn btn-primary" role="button">Salvar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

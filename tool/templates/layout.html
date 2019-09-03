@@ -1,31 +1,30 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <!-- Meta tags Obrigatórias -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="/static/imgs/favicon.ico" />
-    <link href="{{url_for('static', filename='fa/css/all.css') }}" rel="stylesheet"> <!--load all styles -->
-    <!-- Bootstrap CSS -->    
-    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
-     <!-- Custom styles for this template -->
-    <link href="{{url_for('static', filename='css/main.css') }}" rel="stylesheet">
-    <!-- JQUERY-->
-    <script type=text/javascript src="{{url_for('static', filename='js/jquery.min.js') }}"></script>
-    <title>MangaLabelling Tool</title>
-  </head>
-  <body>
-      {% include 'navbar.html' %}
-      <div class="container" style="text-align: center;">
-         <div class="card border-0 shadow my-5">
-            <div class="card-body p-5 faces-content">
-              {% block body %}
-              {% endblock %}
-            </div>
-        </div>
-      </div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Ferramenta para rotular faces de mangás.">
+  <meta name="author" content="@otakudeveloper">
+  <title>MangaLabelling Tool</title>
+  <!-- Bootstrap core CSS -->
+  <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome CSS -->
+  <link href="/static/fa/css/all.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.css" rel="stylesheet">
+  <!-- Page favicon -->
+  <link rel="shortcut icon" href="/static/imgs/favicon.ico" />
+</head>
+<body>
+  <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+  <!-- Navigation -->
+  {% include 'navbar.html' %}
+  <!-- Page Content -->
+  <div class="container" style="text-align: center;">
+      {% block content %}
+      {% endblock %}
+  </div>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-<script src="{{url_for('static', filename='js/popper.min.js') }}"></script>
-<script src="{{url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
-
 </html>

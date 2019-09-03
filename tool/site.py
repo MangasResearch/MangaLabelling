@@ -3,6 +3,7 @@ import os.path
 import psycopg2.extras
 import uuid
 import random
+import datetime
 
 from flask import (
     Blueprint, flash,jsonify,  g, redirect, render_template, request, session, url_for
@@ -81,6 +82,7 @@ def load_logged_in_user():
         g.user_id = user_id
         g.dataset = dataset
         g.curr_imgs = curr_imgs 
+        g.checkpoint = session.get('checkpoint')
 
 
 @bp.route('/')
@@ -88,6 +90,7 @@ def init():
     session.clear()
     session['user_id'] = str(uuid.uuid4())
     session['dataset'] = request_batch()
+    session['checkpoint'] = None
     session['curr_imgs'] = resize_images(session.get('dataset'))
     session['indice'] = 0
     return redirect(url_for("App.index"))
@@ -117,11 +120,13 @@ def about():
 
 @bp.route("/request_faces", methods = ["POST"])
 def request_faces():
+    session['checkpoint'] = datetime.datetime.now()
     return redirect(url_for("App.index"))
 
 
 @bp.route("/reload", methods = ["POST"])
 def reload():
+    session['checkpoint'] = None
     print("SALVANDO MARCAÇÕES - QUANDO RECARREGA/SAI DA PÁGINA")
     labels = request.form.getlist("labels[]")
     list_labels = [int(l) for l in labels]
