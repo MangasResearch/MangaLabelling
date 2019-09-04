@@ -74,7 +74,7 @@ def request_batch():
 def update(labels,curr_batch):
     global update_query
     for i in range(len(labels)):
-        if(labels[i]!='unlabeled' and labels[i]!='[]'):
+        if(labels[i]!='unlabeled' and labels[i]!='[]/0'):
             curr_batch[i][2] = labels[i]
             curr_batch[i][4] = True
         else:
