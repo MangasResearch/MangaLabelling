@@ -11,65 +11,16 @@ from flask import (
 from tool.db import get_db
 from tool.utils import resize_images
 from tool.utils import remove_images
+from tool.utils import update
+from tool.utils import process
+from tool.utils import request_batch
 
 
-request_query = """
-        WITH subquery AS (
-           SELECT * FROM dataset WHERE MARKED = False and BUSY = False LIMIT 5 
-        )
-        UPDATE dataset
-        SET busy=TRUE
-        FROM subquery
-        WHERE dataset.id=subquery.id
-        RETURNING dataset.*;
-    """
-update_query = """UPDATE dataset AS data
-                   SET label=new.label, busy=False, marked=new.marked 
-                   FROM (VALUES %s) AS new(id, ref, label, busy, marked) 
-                   WHERE data.id=new.id;
-                """
+
 
 
 bp = Blueprint('App', __name__)
 
-
-def request_batch():
-    # Obter faces do BD
-    global request_query 
-    curr_batch = []
-    db = get_db()
-    cur = db.cursor()
-    cur.execute("LOCK TABLE dataset IN ACCESS EXCLUSIVE MODE;")
-    cur.execute(request_query)
-    db.commit()
-    batch = cur.fetchall()
-    for row in batch:
-       curr_batch.append(list(row))
-    #session['curr_batch'] = curr_batch
-
-    cur.close()
-    return curr_batch
-
-
-def update(labels):
-    curr_batch = g.dataset
-    global update_query
-    for i in range(len(labels)):
-        curr_batch[i][2] = labels[i]
-        # Confirma quem foram as faces marcadas. 
-        # Se label for 42, a face nao foi marcada
-        if(labels[i]!=42):
-            curr_batch[i][4] = True
-        else:
-            curr_batch[i][3] = False
-
-    db = get_db()
-    cursor = db.cursor()
-    psycopg2.extras.execute_values (
-        cursor, update_query,curr_batch
-    )
-    db.commit()
-    cursor.close()
 
 
 
@@ -120,19 +71,29 @@ def about():
 
 @bp.route("/request_faces", methods = ["POST"])
 def request_faces():
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+    multi_labels = process(data)
+    print(multi_labels)
+    update(multi_labels,g.dataset)
     session['checkpoint'] = datetime.datetime.now()
     return redirect(url_for("App.index"))
 
 
 @bp.route("/reload", methods = ["POST"])
 def reload():
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+    multi_labels = process(data)
     session['checkpoint'] = None
     print("SALVANDO MARCAÇÕES - QUANDO RECARREGA/SAI DA PÁGINA")
-    labels = request.form.getlist("labels[]")
-    list_labels = [int(l) for l in labels]
+    #labels = request.form.getlist("labels[]")
+    #list_labels = [int(l) for l in labels]
     
-    print(list_labels)
-    update(list_labels)
+    print(multi_labels)
+    update(multi_labels,g.dataset)
 
     print("REMOVENDO IMAGENS")
     curr_imgs = session.get('curr_imgs')

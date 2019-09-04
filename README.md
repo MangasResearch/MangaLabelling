@@ -3,10 +3,10 @@
 ## Run
 
 ```console
-foo@bar:~/MangaLabelling$ export FLASK_APP=tool
-foo@bar:~/MangaLabelling$ export FLASK_ENV=development
-foo@bar:~/MangaLabelling$ flask init-db
-foo@bar:~/MangaLabelling$ flask run
+export FLASK_APP=tool
+export FLASK_ENV=development
+flask init-db
+flask run
 ```
 
 Open http://127.0.0.1:5000 in a browser.

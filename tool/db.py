@@ -13,7 +13,7 @@ def _get_faces():
     path = os.environ["FOLDER_IMGS"]
     faces = []
     for f in glob.glob(join(path, "*/*.jpg"), recursive=True):
-        faces.append((f, 0, False, False))
+        faces.append((f, 'unlabeled', False, False))
     return faces
 
 def init_app(app):

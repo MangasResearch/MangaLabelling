@@ -1,4 +1,20 @@
 {% block form %}
+                    <hr>
+                    <h6>Confiança na marcação:</h6>
+                    <div class="row justify-content-center"> 
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="confidenceLevel">
+                            <label class="btn btn-outline-secondary btn-sm">
+                                <input type="radio" name="confidenceLevelOptions" id="confidenceLevel1" autocomplete="off" value="1"> Pouca
+                            </label>
+                            <label class="btn btn-outline-warning btn-sm">
+                                <input type="radio" name="confidenceLevelOptions" id="confidenceLevel2" autocomplete="off" value="2"> Razoável
+                            </label>
+                            <label class="btn btn-outline-success btn-sm active">
+                                <input type="radio" name="confidenceLevelOptions" id="confidenceLevel3" autocomplete="off" value="3" checked> Muita
+                            </label>
+                        </div>
+                    </div>
+                    <hr>
                     <div class="row justify-content-center">
                         <div class="col-xs-6 form-group">
                             <img id="imgsrc" src="http://placekitten.com/500/199" class="img-thumbnail" alt="Face"  style="height:160px;"> 
@@ -7,58 +23,58 @@
                             <div class="form-group" method="post" id="exprForm">
                                 <div class="row">
                                     <div class="col text-left">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp1" name="expressionRadios" value="-1">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp1" name="expressionCheckboxs" value="-1">
                                             <label class="custom-control-label" for="exp1">Não é face</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp2" name="expressionRadios" value="0">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp2" name="expressionCheckboxs" value="0">
                                             <label class="custom-control-label" for="exp2">Não se sabe</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp3" name="expressionRadios" value="1">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp3" name="expressionCheckboxs" value="1">
                                             <label class="custom-control-label" for="exp3">Felicidade/confiança</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp4" name="expressionRadios" value="2">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp4" name="expressionCheckboxs" value="2">
                                             <label class="custom-control-label" for="exp4">Raiva/intimidação</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp5" name="expressionRadios" value="3">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp5" name="expressionCheckboxs" value="3">
                                             <label class="custom-control-label" for="exp5">Sério/crítico</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp6" name="expressionRadios" value="4">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp6" name="expressionCheckboxs" value="4">
                                             <label class="custom-control-label" for="exp6">Apreensão/nervosismo</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp7" name="expressionRadios" checked value="5">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp7" name="expressionCheckboxs" value="5">
                                             <label class="custom-control-label" for="exp7">Tristeza/Sofrimento</label>
                                         </div>
                                     </div>
                                     <div class="col text-left">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp8" name="expressionRadios" value="6">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp8" name="expressionCheckboxs" value="6">
                                             <label class="custom-control-label" for="exp8">Nojo/Desprezo</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp9" name="expressionRadios" value="7">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp9" name="expressionCheckboxs" value="7">
                                             <label class="custom-control-label" for="exp9">Confusão</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp10" name="expressionRadios" value="8">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp10" name="expressionCheckboxs" value="8">
                                             <label class="custom-control-label" for="exp10">Timidez/Vergonha</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp11" name="expressionRadios" value="9">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp11" name="expressionCheckboxs" value="9">
                                             <label class="custom-control-label" for="exp11">Medo</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp12" name="expressionRadios" value="10">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp12" name="expressionCheckboxs" value="10">
                                             <label class="custom-control-label" for="exp12">Surpresa</label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="exp13" name="expressionRadios" value="11">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="exp13" name="expressionCheckboxs" value="11">
                                             <label class="custom-control-label" for="exp13">Inconsciência/Sono</label>
                                         </div>
                                     </div>

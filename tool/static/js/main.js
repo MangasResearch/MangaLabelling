@@ -2,7 +2,8 @@
 var index = 0;
 // Recupera conjunto de imagens do Python
 var images = imgs;
-var labels = new Array(images.length).fill(42);
+var labels = new Array(images.length).fill([]);
+var confidence_array = new Array(images.length).fill(0);
 
 $("#next").on("click", function (e) {
   nextImage();
@@ -15,19 +16,13 @@ $("#prev").on("click", function (e) {
 
 $(window).bind('beforeunload', function () {
   $.ajax({
-      type: 'POST',
-      async: false,
-      url: '/reload',
-      data: {labels: labels}
-  });
+    type: 'POST',
+    url: '/reload',
+    data: JSON.stringify ({labels: labels, confidence: confidence_array}),
+    contentType: "application/json",
+    dataType: 'json'
 });
-// var next = document.getElementById('next');
-// var previous = document.getElementById('prev');
-// //'Previous' button
-// previous.addEventListener('click', previousImage);
-// //'Next' button
-// next.addEventListener('click', nextImage);
-
+});
 
 document.getElementById('imgsrc').src = images[index]; 
 
@@ -41,14 +36,28 @@ function previousImage(){
 }
 
 function nextImage() {
-    var value = document.querySelector('input[name="expressionRadios"]:checked').value;
-    labels[index] = value;
+    confidence_level = $('input[name=confidenceLevelOptions]:checked', '#confidenceLevel').val()
+    selected = new Array();
+    $("input:checkbox[name=expressionCheckboxs]:checked").each(function(){
+      selected.push($(this).val());
+    });    
+    labels[index] = selected;
+    confidence_array[index] = confidence_level;
+    console.log(labels); 
     index+=1;
-    console.log(value); 
     if (index > images.length - 1) {
       index = 0;
-      post("/request_faces", {"Requisitar faces": "OK"}, method='post');
+      $.ajax({
+          type: 'POST',
+          url: '/request_faces',
+          data: JSON.stringify ({labels: labels, confidence: confidence_array}),
+          contentType: "application/json",
+          dataType: 'json'
+      });
     }
+  // Limpar as checkbox e radiobuttons da próxima imagem
+  $('input:radio[name="confidenceLevelOptions"][value="3"]').click();
+  $('input[type=checkbox]').prop('checked',false);
   document.getElementById('imgsrc').src = images[index];
 }
 
@@ -57,34 +66,3 @@ function nextImage() {
 window.onload = function() {
   console.log("EVENTS - ENTROU NA PÁGINA !!!");
 }
-
-
-/**
- * sends a request to the specified url from a form. this will change the window location.
- * @param {string} path the path to send the post request to
- * @param {object} params the paramiters to add to the url
- * @param {string} [method=post] the method to use on the form
- */
-
-function post(path, params, method='post') {
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    const form = document.createElement('form');
-    form.method = method;
-    form.action = path;
-  
-    for (const key in params) {
-      if (params.hasOwnProperty(key)) {
-        const hiddenField = document.createElement('input');
-        hiddenField.type = 'hidden';
-        hiddenField.name = key;
-        hiddenField.value = params[key];
-  
-        form.appendChild(hiddenField);
-      }
-    }
-  
-    document.body.appendChild(form);
-    form.submit();
-  }
