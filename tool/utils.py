@@ -74,11 +74,12 @@ def request_batch():
 def update(labels,curr_batch):
     global update_query
     for i in range(len(labels)):
-        if(labels[i]!='unlabeled' and labels[i]!='[]/0'):
+        if(labels[i]!='unlabeled' and labels[i][:2]!='[]'):
             curr_batch[i][2] = labels[i]
             curr_batch[i][4] = True
         else:
             curr_batch[i][3] = False
+            curr_batch[i][2] = 'unlabeled'
 
     db = get_db()
     cursor = db.cursor()
@@ -94,7 +95,9 @@ def process(data):
     confi_labels = data['confidence']
     labels = []
     for d in range(len(senti_labels)):
-        labels.append(str(senti_labels[d])+'/'+str(confi_labels[d]))
+        senti_labels[d]= ",".join(senti_labels[d])
+        labels.append(senti_labels[d]+':'+str(confi_labels[d]))
 
 
     return labels
+

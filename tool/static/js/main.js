@@ -1,9 +1,22 @@
+function init(){
+  $.ajax({
+      type: 'GET',
+      url: '/getData',
+      data: { entry2_id: 1, entry1_id: 2 },
+      contentType: "application/json",
+      async: false,
+      success: function(data){
+          index = 0;
+          images = data.imgs;
+          labels = new Array(images.length).fill([]);
+          confidence_array = new Array(images.length).fill(0);
+          document.getElementById('imgsrc').src = images[index];
+        }
+  });
+}
 
-var index = 0;
-// Recupera conjunto de imagens do Python
-var images = imgs;
-var labels = new Array(images.length).fill([]);
-var confidence_array = new Array(images.length).fill(0);
+init();
+
 
 $("#next").on("click", function (e) {
   nextImage();
@@ -21,11 +34,8 @@ $(window).bind('beforeunload', function () {
     data: JSON.stringify ({labels: labels, confidence: confidence_array}),
     contentType: "application/json",
     dataType: 'json'
+  });
 });
-});
-
-document.getElementById('imgsrc').src = images[index]; 
-
 
 function previousImage(){
     index-=1;
@@ -43,7 +53,6 @@ function nextImage() {
     });    
     labels[index] = selected;
     confidence_array[index] = confidence_level;
-    console.log(labels); 
     index+=1;
     if (index > images.length - 1) {
       index = 0;
@@ -52,17 +61,21 @@ function nextImage() {
           url: '/request_faces',
           data: JSON.stringify ({labels: labels, confidence: confidence_array}),
           contentType: "application/json",
-          dataType: 'json'
+          async: false,
+          dataType: 'json',
+          success: function(data){
+            images = data.imgs;
+            labels = new Array(images.length).fill([]);
+            confidence_array = new Array(images.length).fill(0);
+          }
       });
     }
+  console.log(index)
+  console.log(images)
   // Limpar as checkbox e radiobuttons da próxima imagem
   $('input:radio[name="confidenceLevelOptions"][value="3"]').click();
   $('input[type=checkbox]').prop('checked',false);
   document.getElementById('imgsrc').src = images[index];
+  
 }
 
-
-// Detecta quando o usuário entra na página
-window.onload = function() {
-  console.log("EVENTS - ENTROU NA PÁGINA !!!");
-}

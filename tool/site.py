@@ -18,14 +18,31 @@ from tool.utils import request_batch
 
 
 
-
 bp = Blueprint('App', __name__)
 
+# Entrar na aplicação
+@bp.route('/')
+def login():
+    session.clear()
+    session['user_id'] = str(uuid.uuid4()) # 1
+    session['dataset'] = request_batch() # 2
+    # session['checkpoint'] = None
+    session['curr_imgs'] = resize_images(session.get('dataset')) # 3
+    session['indice'] = 0
 
+    #print(g.curr_imgs)
+    #return render_template('index.html', page = "index")
+    return redirect(url_for("App.index"))
 
 
 @bp.before_app_request
 def load_logged_in_user():
+    """
+    registers a function that runs before the view function,
+    no matter what URL is requested. load_logged_in_user
+    checks if a user id is stored in the session and gets 
+    that user’s data from the database.
+    """
     user_id = session.get('user_id')
     dataset = session.get('dataset')
     curr_imgs = session.get('curr_imgs')
@@ -33,37 +50,47 @@ def load_logged_in_user():
         g.user_id = user_id
         g.dataset = dataset
         g.curr_imgs = curr_imgs 
-        g.checkpoint = session.get('checkpoint')
+        # g.checkpoint = session.get('checkpoint')
+    else:
+        g.user_id = None
 
+# def login_required(view):
+#     @functools.wraps(view)
+#     def wrapped_view(**kwargs):
+#         if g.user_id is None:
+#             return redirect(url_for('App'))
 
-@bp.route('/')
-def init():
-    session.clear()
-    session['user_id'] = str(uuid.uuid4())
-    session['dataset'] = request_batch()
-    session['checkpoint'] = None
-    session['curr_imgs'] = resize_images(session.get('dataset'))
-    session['indice'] = 0
-    return redirect(url_for("App.index"))
+#         return view(**kwargs)
 
+#     return wrapped_view
 
 @bp.route('/index')
 def index(): 
     print("INDEX - ENTRANDO NO INDEX PARA REQUISITAR DADOS!!!")
-    print('curr_batch: ',g.dataset)
-    indice = session.get('indice')
-    if(indice!=0):
-        dataset  = request_batch()
-        curr_imgs = resize_images(dataset)
-    else:
-        dataset = session.get('dataset')
-        curr_imgs = session['curr_imgs']
+    # print('curr_batch: ',g.dataset)
+    # indice = session.get('indice')
+    # if(indice!=0):
+    #     dataset  = request_batch()
+    #     curr_imgs = resize_images(dataset)
+    # else:
+    #     dataset = session.get('dataset')
+    #     curr_imgs = session['curr_imgs']
 
-    session['curr_imgs'] = curr_imgs
-    session['dataset'] = dataset
-    session['indice'] = 1
+    # session['curr_imgs'] = curr_imgs
+    # session['dataset'] = dataset
+    # session['indice'] = 1
 
-    return render_template('index.html', imgs=curr_imgs, page = "index")
+    print(g.curr_imgs)
+    return render_template('index.html', page = "index")
+
+
+@bp.route("/getData", methods=['GET'])
+def getData():
+
+    # entry2Value = request.args.get('entry2_id')
+    # entry1Value = request.args.get('entry1_id')
+
+    return jsonify({ 'imgs': g.curr_imgs})
 
 @bp.route('/about')
 def about(): 
@@ -71,15 +98,22 @@ def about():
 
 @bp.route("/request_faces", methods = ["POST"])
 def request_faces():
+    print("REMOVENDO IMAGENS")
+    curr_imgs = session.get('curr_imgs')
+    remove_images(curr_imgs)
+    curr_imgs = []
     if request.method == 'POST':
         data = request.get_json()
         print(data)
     multi_labels = process(data)
     print(multi_labels)
     update(multi_labels,g.dataset)
-    session['checkpoint'] = datetime.datetime.now()
-    return redirect(url_for("App.index"))
-
+    # Atualizar dados da sessão
+    session['dataset'] = request_batch()
+    session['curr_imgs'] = resize_images(session.get('dataset'))
+    # session['checkpoint'] = datetime.datetime.now()
+    # return redirect(url_for("App.index"))
+    return jsonify({ 'imgs': session['curr_imgs']})
 
 @bp.route("/reload", methods = ["POST"])
 def reload():
@@ -105,10 +139,11 @@ def reload():
 
     return jsonify({"STATUS": "OK"})
     
-# @bp.after_request
-# def add_header(response):
-#     # response.cache_control.no_store = True
-#     response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
-#     response.headers['Pragma'] = 'no-cache'
-#     response.headers['Expires'] = '-1'
-#     return response
+@bp.after_request
+def add_header(response):
+    # response.cache_control.no_store = True
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
+    return response
+
