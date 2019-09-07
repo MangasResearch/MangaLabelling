@@ -79,6 +79,25 @@ function nextImage() {
             confidence_array = new Array(images.length).fill(0);
           }
       });
+          $.ajax({url:'/saved',
+            type:'GET',
+            success:function(result){
+                $('#alert-div').html(
+                  '<div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">\
+                  <strong>Salvo automaticamente em: </strong>' + result.current_time + '\
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+                    <span aria-hidden="true">&times;</span>\
+                  </button>\
+                  </div>\
+                  <script>\
+                  $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){\
+                    $("#success-alert").slideUp(500);\
+                  });\
+                  </script>'
+                ).show();  
+            }
+        });
+      
     }
   pre_set_labels(index)
   document.getElementById('imgsrc').src = images[index];

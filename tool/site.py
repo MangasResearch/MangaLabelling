@@ -159,3 +159,7 @@ def add_header(response):
     response.headers['Expires'] = '-1'
     return response
 
+@bp.route("/saved", methods = ["GET"])
+def saved():
+    current_time = datetime.datetime.now()
+    return jsonify({ 'current_time': current_time})
