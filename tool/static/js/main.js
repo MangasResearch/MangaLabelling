@@ -2,14 +2,13 @@ function init(){
   $.ajax({
       type: 'GET',
       url: '/getData',
-      data: { entry2_id: 1, entry1_id: 2 },
       contentType: "application/json",
       async: false,
       success: function(data){
           index = 0;
           images = data.imgs;
           labels = new Array(images.length).fill([]);
-          confidence_array = new Array(images.length).fill(0);
+          confidence_array = new Array(images.length).fill(3);
           document.getElementById('imgsrc').src = images[index];
         }
   });
@@ -26,7 +25,7 @@ $("#prev").on("click", function (e) {
   previousImage();
 });
 
-
+/*
 $(window).bind('beforeunload', function () {
   $.ajax({
     type: 'POST',
@@ -36,6 +35,16 @@ $(window).bind('beforeunload', function () {
     dataType: 'json'
   });
 });
+*/
+
+function pre_set_labels(index){
+  $('input:radio[name="confidenceLevelOptions"][value="'+confidence_array[index]+'"]').click();
+  $('input[type=checkbox]').prop('checked',false);
+    labels[index].forEach(function(value){
+    $("input[type='checkbox'][value=" + value + "]").prop("checked", true);
+  });
+}
+
 
 function previousImage(){
     index-=1;
@@ -43,6 +52,7 @@ function previousImage(){
       index = 0; // images.length - 1;
     }
     document.getElementById('imgsrc').src = images[index];
+    pre_set_labels(index)
 }
 
 function nextImage() {
@@ -70,12 +80,9 @@ function nextImage() {
           }
       });
     }
-  console.log(index)
-  console.log(images)
-  // Limpar as checkbox e radiobuttons da próxima imagem
-  $('input:radio[name="confidenceLevelOptions"][value="3"]').click();
-  $('input[type=checkbox]').prop('checked',false);
+  pre_set_labels(index)
   document.getElementById('imgsrc').src = images[index];
   
 }
+
 

@@ -1,22 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
-	{% include 'message.html' %}
+	<!-- {% include 'message.html' %} --!>
 	<div class="col-sm-9">
         <div class="card border-0 shadow my-5">
             <div class="card-body p-5 faces-content">
 				<div class="starter-template">
 					<h5>Selecione a opção que define melhor a face mostrada.</h5>
-				    <div>
-				    	<button id="exit-button" type="button" class="btn btn-outline-primary" id="save" data-toggle="modal" data-target="#messageExit">
+				    <!-- <div>
+				    	 <button id="exit-button" type="button" class="btn btn-outline-primary" id="save" data-toggle="modal" data-target="#messageExit"> 
 				    		<i class="far fa-save"> <i class="fas fa-sign-out-alt"></i> </i> Salvar/Sair 
 				    	</button>
-					</div>
+					</div> --!>
 				    {% include 'form.html' %}
 				</div>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
+<!--	<script type="text/javascript">
 		$(function () {
 		//getting click event to show modal
 			$('#exit-button').click(function () {
@@ -27,5 +27,6 @@
 			});
 			});
 	</script>
+--!>
 	<script type="text/javascript" src="/static/js/main.js"></script>
 {% endblock %}
