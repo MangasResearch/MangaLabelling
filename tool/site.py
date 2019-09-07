@@ -25,13 +25,14 @@ bp = Blueprint('App', __name__)
 def login():
     print("LOGIN!!")
     if('user_id' in session):
+        print('There is a user online, going for index')
         return redirect(url_for("App.index"))
     session.clear()
     session['user_id'] = str(uuid.uuid4()) # 1
-    if(not 'curr_imgs' in session):
-        session['dataset'] = request_batch() # 2
-        # session['checkpoint'] = None
-        session['curr_imgs'] = resize_images(session.get('dataset')) # 3
+    #if(not 'curr_imgs' in session):
+    session['dataset'] = request_batch() # 2
+    # session['checkpoint'] = None
+    session['curr_imgs'] = resize_images(session.get('dataset')) # 3
     session['indice'] = 0
 
     #print(g.curr_imgs)
@@ -54,6 +55,7 @@ def load_logged_in_user():
         curr_imgs = session.get('curr_imgs')
     else:
        print("Não ha curr imgs")
+    """
     if user_id is not None:
         g.user_id = user_id
         g.dataset = dataset
@@ -61,11 +63,12 @@ def load_logged_in_user():
         # g.checkpoint = session.get('checkpoint')
     else:
         g.user_id = None
-
+    """
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        if g.user_id is None:
+        #if g.user_id is None:
+        if 'user_id' not in session:
             return redirect(url_for('App.login'))
 
         return view(**kwargs)
@@ -76,7 +79,8 @@ def login_required(view):
 @login_required
 def index(): 
     print("INDEX - ENTRANDO NO INDEX PARA REQUISITAR DADOS!!!")
-    print(g.curr_imgs)
+    curr_imgs = session.get('curr_imgs')
+    print(curr_imgs)
     return render_template('index.html', page = "index")
 
 
@@ -91,7 +95,7 @@ def getData():
         session['curr_imgs'] = resize_images(session.get('dataset'))
         curr_imgs = session.get('curr_imgs')
         return jsonify({ 'imgs': curr_imgs})
-    return jsonify({ 'imgs': g.curr_imgs})
+    return jsonify({ 'imgs': session.get('curr_imgs')})
 
 @bp.route('/about')
 def about(): 
@@ -102,6 +106,7 @@ def request_faces():
     print("REQUEST FACES!!")
     print("removendo imagens antigas")
     curr_imgs = session.get('curr_imgs')
+    dataset = session.get('dataset')
     print("antigo batch de images:",curr_imgs)
     remove_images(curr_imgs)
     curr_imgs = []
@@ -110,7 +115,7 @@ def request_faces():
         print(data)
     multi_labels = process(data)
     print(multi_labels)
-    update(multi_labels,g.dataset)
+    update(multi_labels,dataset)
     # Atualizar dados da sessão
     session['dataset'] = request_batch()
     curr_imgs = resize_images(session.get('dataset'))

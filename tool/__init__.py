@@ -18,8 +18,8 @@ def create_app(test_config=None):
         # a default secret that should be overridden by instance config
         SECRET_KEY="dev",
         # store the database in the instance folder
-        DATABASE=os.path.join(app.instance_path, "tool.sqlite")#,
-        #SEND_FILE_MAX_AGE_DEFAULT=0
+        DATABASE=os.path.join(app.instance_path, "tool.sqlite"),
+        SEND_FILE_MAX_AGE_DEFAULT=0
     )
     
     if test_config is None:
