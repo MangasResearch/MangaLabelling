@@ -1,4 +1,5 @@
 import functools
+import os
 import os.path
 import psycopg2.extras
 import uuid
@@ -81,6 +82,10 @@ def index():
     print("INDEX - ENTRANDO NO INDEX PARA REQUISITAR DADOS!!!")
     curr_imgs = session.get('curr_imgs')
     print(curr_imgs)
+    if(os.path.exists('tool/'+curr_imgs[0])==False):
+        print("Imgs do not exist anymore!!")
+        session.clear() 
+        return redirect(url_for('App.login'))
     return render_template('index.html', page = "index")
 
 
